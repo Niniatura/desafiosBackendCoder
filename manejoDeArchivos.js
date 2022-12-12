@@ -53,12 +53,13 @@ class ProductManager{
         return new Promise((resolve, reject) => {
             fs.readFile(this.file, 'utf8', (err,data) =>{
                 if(err){
-                    reject(err);
+                    // reject(err);
+                    return console.log('El producto ha sido borrado');
                 }
                 this.products = JSON.parse(data);
                 const product = this.products.find((product) => product.id === id);
                 resolve(product);
-                console.log('el producto con id 55 es' + JSON.stringify(product))
+                console.log('el producto buscado por id es' + JSON.stringify(product))
             });
         });
     }
@@ -80,9 +81,9 @@ class ProductManager{
             if (err) {
               reject(err);
             }
-            this.products = JSON.parse(data);
-            this.products = this.products.filter((product) => product.id !== id);
-            fs.writeFile;
+        this.products = JSON.parse(data);
+        let filtered_list = this.products.filter((product) => product.id !== id);
+        fs.writeFileSync(this.file, JSON.stringify(filtered_list), 'utf8');
           });
         });
       }
@@ -93,21 +94,14 @@ class ProductManager{
               reject(err);
             }
             this.products = JSON.parse(data);
-            let pepe=this.products
-            // // let productToModify = product;
-            // pepe.description=JSON.parse('descripcion modificada');
-            pepe.forEach((product) => {
-                // product = this.products.filter((product) => product.id !== id);
-                // If the bookID is the one we are looking for, set it as null
+            let product_modif=this.products
+            product_modif.forEach((product) => {
                 if (product.id === id) {
                     product.description = 'ahora son verdes';
                     fs.writeFileSync(this.file, JSON.stringify(data, null, 4), 'utf8');
-                    console.log('el producto modificado es' + JSON.stringify(product))
-                console.log('hola')
+                    console.log('el producto modificado es' + JSON.stringify(product));
                 }
               });
-              
-            //   console.log(data);
           });
         });
       }
@@ -117,8 +111,7 @@ const productManager = new ProductManager();
 productManager.addProduct('tomates', 'rojos', 180, 'imageUrl', 1234, 45);
 productManager.addProduct('peras', 'amarillas', 2939, 'imageUrl', 08234, 48);
 console.log(productManager.getProducts());
-console.log(productManager.getProductById((67)));
-console.log(productManager.updateProduct(67))
-// console.log(productManager.updateProduct(39));
-// productManager.deleteProductById(1)
-// console.log(getProductById(1))
+console.log(productManager.getProductById());
+console.log(productManager.updateProduct());
+productManager.deleteProductById();
+console.log(productManager.getProductById());
